@@ -1,6 +1,8 @@
 const myLibrary = [];
-const tableDOM = document.getElementById("tableBody");
+const tableDOM = document.getElementById("table-body");
+const containerDOM = document.getElementById("container");
 const bookBtnDOM = document.getElementById("book-btn");
+const bookForm = document.getElementById("book-form");
 
 function Book(id, title, author, pages){
     if (!new.target) {
@@ -85,9 +87,48 @@ function renderTable(){
         tableDOM.appendChild(row);
     });
 
-    // bookBtnDOM.addEventListener("click", () => {
+    bookBtnDOM.addEventListener("click", () => {
 
-    // })
+        const titleLabel = document.createElement("label");
+        titleLabel.setAttribute("for", "title");
+        titleLabel.textContent = "Book Title:";
+        const titleInput = document.createElement("input");
+        titleInput.type = "text";
+        titleInput.id = "title";
+        titleInput.name = "title";
+
+        const authorLabel = document.createElement("label");
+        authorLabel.setAttribute("for", "author");
+        authorLabel.textContent = "Book Author:";
+        const authorInput = document.createElement("input");
+        authorInput.type = "text";
+        authorInput.id = "author";
+        authorInput.name = "author";
+
+        const pagesLabel = document.createElement("label");
+        pagesLabel.setAttribute("for", "pages");
+        pagesLabel.textContent = "Pages Number:";
+        const pagesInput = document.createElement("input");
+        pagesInput.type = "number";
+        pagesInput.name = "pages";
+        pagesInput.id = "pages";
+
+        const sendBtn = document.createElement("button");
+        sendBtn.setAttribute("type", "submit");
+        sendBtn.textContent = "Add Book";
+
+        bookForm.append(titleLabel, titleInput, authorLabel, authorInput, pagesLabel, pagesInput, sendBtn);
+        containerDOM.appendChild(bookForm);
+
+        bookForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(bookForm);
+            const data = Object.fromEntries(formData.entries());
+            addBookToLibrary(data.title, data.author, data.pages);
+            cleanRefreshTable();
+        });
+    })
 
 }
 
