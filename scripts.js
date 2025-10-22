@@ -1,5 +1,5 @@
 const myLibrary = [];
-const tableDOM = document.getElementById("bookTable");
+const tableDOM = document.getElementById("tableBody");
 const bookBtnDOM = document.getElementById("book-btn");
 
 function Book(id, title, author, pages){
@@ -38,6 +38,11 @@ function readBook(id){
     })
 }
 
+function cleanRefreshTable(){
+    tableDOM.innerHTML = '';
+    renderTable();
+}
+
 addBookToLibrary("livro1", "author1", 210);
 addBookToLibrary("livro2", "author2", 220);
 addBookToLibrary("livro3", "author3", 230);
@@ -60,6 +65,7 @@ function renderTable(){
         deleteBtn.addEventListener("click", (e) => {
             const idToDelete = e.target.dataset.bookId;
             deleteBookFromLibrary(idToDelete);
+            cleanRefreshTable();
         });
         const deleteCell = document.createElement("td");
         deleteCell.appendChild(deleteBtn);
@@ -72,6 +78,7 @@ function renderTable(){
             const idToEdit = e.target.dataset.bookId;
             readBook(idToEdit);
             console.log(`book readed: ${book.read}`);
+            cleanRefreshTable();
         });
         row.appendChild(editBtn);
 
